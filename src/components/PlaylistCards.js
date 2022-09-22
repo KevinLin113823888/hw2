@@ -12,6 +12,7 @@ export default class PlaylistCards extends React.Component {
         }
         else {
             return (
+              
                 <div id="playlist-cards">
                     {
                         currentList.songs.map((song, index) => (
@@ -24,7 +25,8 @@ export default class PlaylistCards extends React.Component {
                         ))
                     }
                 </div>
-            )
+                
+            );
         }
     }
 }

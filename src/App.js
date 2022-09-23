@@ -20,6 +20,8 @@ import SidebarList from './components/SidebarList.js';
 import Statusbar from './components/Statusbar.js';
 import EditSongModal from './components/EditSongModal';
 import EditSong_Transaction from './transactions/EditSong_Transaction';
+import RemoveSongModal from './components/RemoveSongModal';
+import RemoveSong_Transaction from './transactions/RemoveSong_Transaction';
 
 class App extends React.Component {
     constructor(props) {
@@ -260,6 +262,10 @@ class App extends React.Component {
         let transaction = new EditSong_Transaction(this,newTitle,newArtist,newYoutubeId,newInd,oltitle,olartist,olyoutubeId);
         this.tps.addTransaction(transaction);
     }
+    addRemoveSongTransaction=(oltitle,olartist,olyoutubeId) =>{
+        let transaction = new RemoveSong_Transaction(this,oltitle,olartist,olyoutubeId);
+        this.tps.addTransaction(transaction);
+    }
     // THIS FUNCTION BEGINS THE PROCESS OF PERFORMING AN UNDO
     undo = () => {
         if (this.tps.hasTransactionToUndo()) {
@@ -300,6 +306,15 @@ class App extends React.Component {
         this.hideEditListModal();
         this.addEditSongTransaction(ntitle,nartist,nyoutubeId,this.state.songIndex,otitle,oartist,oyoutubeId);
     }
+    confirmRemoveSongCallback=()=>{
+       let list = this.state.currentList;
+       let ind = this.state.songIndex;
+       let otitle = list.songs[ind].title
+       let oartist =  list.songs[ind].artist
+       let oyouTubeId =  list.songs[ind].youTubeId
+        this.hideRemoveSongModal();
+        this.addRemoveSongTransaction(otitle,oartist,oyouTubeId);
+    }
     editCurrentSong(ntitle,nartist,nyoutubeId,ind){
         let list = this.state.currentList;
         
@@ -308,6 +323,19 @@ class App extends React.Component {
         list.songs[ind].youTubeId=nyoutubeId;
         this.setStateWithUpdatedList(list);
     }
+
+    removeSong=()=>{
+        let list = this.state.currentList;
+        list.songs.splice(this.state.songIndex,1);
+        this.setStateWithUpdatedList(list);
+    }
+    addSong=(ntitle,nartist,nyoutubeId)=>{
+        let newsong = {title:ntitle,artist:nartist,youTubeId:nyoutubeId};
+        let list = this.state.currentList;
+        list.songs.splice(this.state.songIndex,0,newsong);
+        this.setStateWithUpdatedList(list);
+    }
+
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
     // TO SEE IF THEY REALLY WANT TO DELETE THE LIST
     showEditSongModal=(song,songIndex)=> {
@@ -324,9 +352,24 @@ class App extends React.Component {
             console.log(this.state.songIndex);
             
         });
-     
         
-        //console.log(song);
+        
+    }
+
+    showRemoveSongModal=(song,songIndex)=> {
+        this.setState(prevState => ({
+            listKeyPairMarkedForDeletion : this.state.listKeyPairMarkedForDeletion,
+            currentList: this.state.currentList,
+            sessionData: this.state.sessionData,
+            song: song,
+            songIndex : songIndex
+        }), () => {
+            //this.makeChanges();
+            let modal = document.getElementById("remove-song-modal");
+            modal.classList.add("is-visible");
+            //console.log(this.state.songIndex);
+            
+        });
         
         
     }
@@ -344,6 +387,10 @@ class App extends React.Component {
     // THIS FUNCTION IS FOR HIDING THE MODAL
     hideDeleteListModal() {
         let modal = document.getElementById("delete-list-modal");
+        modal.classList.remove("is-visible");
+    }
+    hideRemoveSongModal() {
+        let modal = document.getElementById("remove-song-modal");
         modal.classList.remove("is-visible");
     }
     render() {
@@ -376,7 +423,8 @@ class App extends React.Component {
                 <PlaylistCards
                     editSongCallback ={this.showEditSongModal}
                     currentList={this.state.currentList}
-                    moveSongCallback={this.addMoveSongTransaction} />
+                    moveSongCallback={this.addMoveSongTransaction} 
+                    removeSongCallback={this.showRemoveSongModal} />
                     
                 <Statusbar 
                     currentList={this.state.currentList} />
@@ -384,6 +432,11 @@ class App extends React.Component {
                     listKeyPair={this.state.listKeyPairMarkedForDeletion}
                     hideDeleteListModalCallback={this.hideDeleteListModal}
                     deleteListCallback={this.deleteMarkedList}
+                />
+                <RemoveSongModal
+                    song={this.state.song}
+                    hideRemoveSongModalCallback={this.hideRemoveSongModal}
+                    removeSongCallback={this.confirmRemoveSongCallback}
                 />
                 <EditSongModal
                     currentList={this.state.currentList}

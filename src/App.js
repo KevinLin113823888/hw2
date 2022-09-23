@@ -50,6 +50,31 @@ class App extends React.Component {
             songIndex: -1
         }
         this.ChildElement= React.createRef();
+        
+    }
+    componentDidMount(){
+        document.addEventListener("keydown", (event) => {
+            if (event.ctrlKey && event.key === "z") {
+              this.undo();
+            }
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.ctrlKey && event.key === "y") {
+              this.redo();
+            }
+        });
+    }
+    componentWillUnmount(){
+        document.removeEventListener("keydown", (event) => {
+            if (event.ctrlKey && event.key === "z") {
+                this.undo();
+            }
+        });
+        document.removeEventListener("keydown", (event) => {
+            if (event.ctrlKey && event.key === "y") {
+                this.redo();
+            }
+        });
     }
     sortKeyNamePairsByName = (keyNamePairs) => {
         keyNamePairs.sort((keyPair1, keyPair2) => {
@@ -59,6 +84,7 @@ class App extends React.Component {
     }
     // THIS FUNCTION BEGINS THE PROCESS OF CREATING A NEW LIST
     createNewList = () => {
+        
         // FIRST FIGURE OUT WHAT THE NEW LIST'S KEY AND NAME WILL BE
         let newKey = this.state.sessionData.nextKey;
         let newName = "Untitled" + newKey;

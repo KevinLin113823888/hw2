@@ -97,7 +97,7 @@ export default class SongCard extends React.Component {
                     id={"remove-song-" + this.props.id.substring("playlist-song-".length)}
                     className="song-card-button"
                     onClick={this.handleRemoveSong}
-                    value={"x"} /> 
+                    value="&#x2715;" /> 
                 
             </div>
            

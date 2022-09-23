@@ -176,7 +176,9 @@ body {
   border-radius: 25px;
   background-color: var(--swatch-complement);
 }
-
+.button{
+  border-radius: 5px;
+}
 input {
   font-size:20pt;
 }

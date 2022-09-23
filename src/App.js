@@ -22,6 +22,7 @@ import EditSongModal from './components/EditSongModal';
 import EditSong_Transaction from './transactions/EditSong_Transaction';
 import RemoveSongModal from './components/RemoveSongModal';
 import RemoveSong_Transaction from './transactions/RemoveSong_Transaction';
+import AddSong_Transaction from './transactions/AddSong_Transaction';
 
 class App extends React.Component {
     constructor(props) {
@@ -266,6 +267,10 @@ class App extends React.Component {
         let transaction = new RemoveSong_Transaction(this,oltitle,olartist,olyoutubeId);
         this.tps.addTransaction(transaction);
     }
+    addAddSongTransaction =()=>{
+        let transaction = new AddSong_Transaction(this);
+        this.tps.addTransaction(transaction);
+    } 
     // THIS FUNCTION BEGINS THE PROCESS OF PERFORMING AN UNDO
     undo = () => {
         if (this.tps.hasTransactionToUndo()) {
@@ -335,7 +340,19 @@ class App extends React.Component {
         list.songs.splice(this.state.songIndex,0,newsong);
         this.setStateWithUpdatedList(list);
     }
+    addNewSong=()=>{
 
+        let list = this.state.currentList;
+        let newsong = {title:"Untitled",artist:"Unknown",youTubeId:"dQw4w9WgXcQ"};
+        list.songs.push(newsong);
+        this.setStateWithUpdatedList(list);
+         
+    }
+    removeNewSong=()=>{
+        let list = this.state.currentList;
+        list.songs.pop();
+        this.setStateWithUpdatedList(list);
+    }
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
     // TO SEE IF THEY REALLY WANT TO DELETE THE LIST
     showEditSongModal=(song,songIndex)=> {
@@ -378,7 +395,7 @@ class App extends React.Component {
         let modal = document.getElementById("edit-song-modal");
         modal.classList.remove("is-visible");
     }
-
+   
 
     showDeleteListModal() {
         let modal = document.getElementById("delete-list-modal");
@@ -419,6 +436,7 @@ class App extends React.Component {
                     undoCallback={this.undo}
                     redoCallback={this.redo}
                     closeCallback={this.closeCurrentList}
+                    addSongCallback={this.addAddSongTransaction}
                 />
                 <PlaylistCards
                     editSongCallback ={this.showEditSongModal}

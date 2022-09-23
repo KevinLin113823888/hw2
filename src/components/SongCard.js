@@ -53,6 +53,12 @@ export default class SongCard extends React.Component {
         // ASK THE MODEL TO MOVE THE DATA
         this.props.moveCallback(sourceId, targetId);
     }
+    handleClick = (event) => {
+        let num = this.getItemNum();
+            this.props.editCallback(this.props.song,this.getItemNum()-1);
+           console.log(this.getItemNum()-1);
+        
+    }
 
     getItemNum = () => {
         return this.props.id.substring("playlist-song-".length);
@@ -71,6 +77,7 @@ export default class SongCard extends React.Component {
             <div
                 id={'song-' + num}
                 className={itemClass}
+                onDoubleClick={this.handleClick}
                 onDragStart={this.handleDragStart}
                 onDragOver={this.handleDragOver}
                 onDragEnter={this.handleDragEnter}
@@ -78,17 +85,19 @@ export default class SongCard extends React.Component {
                 onDrop={this.handleDrop}
                 draggable="true"
             >
-                {num}.
+               {num}.
                <a href={"https://www.youtube.com/watch?v=" + song.youTubeId}> {song.title} by {song.artist}
-               </a>
+               
+                </a>
                <input
-                    type="button"
+                    type="button"   
                     id={"remove-song-" + this.props.id.substring("playlist-song-".length)}
-                    className="list-card-button"
+                    className="song-card-button"
                     onClick={this.handleDragStart}
-                    value={"🗑"} />   
+                    value={"x"} /> 
+                
             </div>
-            
+           
            
         )
     }

@@ -142,7 +142,11 @@ body {
   font-size:18pt;
   
 }
-
+.song-card-button{
+  
+  font-size:18pt;
+  margin-left: auto;
+}
 
 .playlister-button, .playlister-button-disabled {
   font-size:36pt;
@@ -232,7 +236,18 @@ input {
   background-color: #669966;
   color:white;
 }
-
+.modal-center-right{
+  font-size:24pt;
+}
+.modal-center2 {
+  font-weight:bold;
+  display: grid;
+  grid-template-columns: 30% 65%;
+  grid-template-rows: 33% 33% 33%;
+  gap: 5px 20px;
+  font-size:28pt;
+  
+}
 .modal-center {
   display: grid;
   grid-template-columns: 30% 65%;

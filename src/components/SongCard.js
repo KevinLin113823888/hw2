@@ -42,6 +42,7 @@ export default class SongCard extends React.Component {
         let target = event.target;
         let targetId = target.id;
         targetId = targetId.substring(target.id.indexOf("-") + 1);
+        if(targetId!==""){
         let sourceId = event.dataTransfer.getData("song");
         sourceId = sourceId.substring(sourceId.indexOf("-") + 1);
         
@@ -52,6 +53,7 @@ export default class SongCard extends React.Component {
 
         // ASK THE MODEL TO MOVE THE DATA
         this.props.moveCallback(sourceId, targetId);
+        }
     }
     handleClick = (event) => {
         let num = this.getItemNum();

@@ -116,7 +116,7 @@ body {
 }
 
 .list-card, .selected-list-card, .unselected-list-card {
-  font-size: 18pt;
+  font-size: 25pt;
   margin: 10px;
   padding: 20px;
   border-radius: 25px;
@@ -165,7 +165,27 @@ body {
   opacity: 0.25; 
   cursor: not-allowed;
 }
-
+.toolbar-button{
+  font-size:36pt;
+  border-width: 0px;
+  float:left;
+  color: black;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.toolbar-button:hover {
+  cursor: pointer;
+  color:black;
+}
+.disabled{
+  opacity: 0.25; 
+  cursor: not-allowed;
+}
+.disabled:hover{
+  color:black;
+  opacity: 0.25; 
+  cursor: not-allowed;
+}
 .playlister-song, .playlister-song-dragged-to { 
   display:flex;
   align-items: center;
@@ -176,9 +196,7 @@ body {
   border-radius: 25px;
   background-color: var(--swatch-complement);
 }
-.button{
-  border-radius: 5px;
-}
+
 input {
   font-size:20pt;
 }

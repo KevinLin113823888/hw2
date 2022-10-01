@@ -45,7 +45,7 @@ export default class SongCard extends React.Component {
         if(targetId!==""){
         let sourceId = event.dataTransfer.getData("song");
         sourceId = sourceId.substring(sourceId.indexOf("-") + 1);
-        
+        if(targetId!==sourceId){
         this.setState(prevState => ({
             isDragging: false,
             draggedTo: false
@@ -54,6 +54,7 @@ export default class SongCard extends React.Component {
         // ASK THE MODEL TO MOVE THE DATA
         this.props.moveCallback(sourceId, targetId);
         }
+    }
     }
     handleClick = (event) => {
         let num = this.getItemNum();
